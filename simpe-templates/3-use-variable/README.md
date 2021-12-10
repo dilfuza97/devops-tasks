@@ -1,6 +1,9 @@
+### Add variables
+
 The parameter for the storage account name is hard-to-use because you have to provide a unique name. If you've completed the earlier tutorials in this series, you're probably tired of guessing a unique name. You solve this problem by adding a variable that constructs a unique name for the storage account.
 
-Use variable
+**Use variable**
+
 The following example highlights the changes to add a variable to your template that creates a unique storage account name. Copy the whole file and replace your template with its contents.
 
 ```json

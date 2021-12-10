@@ -1,6 +1,6 @@
-Add template functions to your ARM template
+### Add template functions to your ARM template
 
-The location of the storage account is hard-coded to eastus. However, you may need to deploy the storage account to other regions. You're again facing an issue of your template lacking flexibility. You could add a parameter for location, but it would be great if its default value made more sense than just a hard-coded value.
+The location of the storage account is **hard-coded** to eastus. **However, you may need to deploy the storage account to other regions. You're again facing an issue of your template lacking flexibility.** You could add a parameter for location, but it would be great if its default value made more sense than just a hard-coded value.
 
 Functions add flexibility to your template by dynamically getting values during deployment. In this tutorial, you use a function to get the location of the resource group you're using for deployment.
 

@@ -1,6 +1,6 @@
-t deploys a storage account, but it doesn't return any information about the storage account. You might need to capture properties from a new resource so they're available later for reference.
+It deploys a storage account, but it doesn't return any information about the storage account. You might need to capture properties from a new resource so they're available later for reference.
 
-Add outputs
+### Add outputs
 You can use outputs to return values from the template. For example, it might be helpful to get the endpoints for your new storage account.
 
 The following example highlights the change to your template to add an output value. Copy the whole file and replace your template with its contents.
@@ -56,7 +56,14 @@ The following example highlights the change to your template to add an output va
     "storageEndpoint": {
       "type": "object",
       "value": "[reference(variables('uniqueStorageName')).primaryEndpoints]"
+    },
+    "storageAccountName": {
+      "type": "string",
+      "value": "[variables('uniqueStorageName')]"  
+
     }
   }
 }
 ```
+
+`az deployment group create --name addoutputs --resource-group arm-group --template-file 4-output/output.json --parameters storagePrefix=store storageSKU=Standard_LRS`
