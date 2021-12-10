@@ -32,7 +32,7 @@
         "name": "[parameters('storageName')]",
         "location": "westus",
         "sku": {
-          "name": "Standard_LRS"
+          "name": "[parameters('storageSKU')]"
         },
         "kind": "StorageV2",
         "properties": {
