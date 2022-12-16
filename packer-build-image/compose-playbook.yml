@@ -1,0 +1,70 @@
+- hosts: all
+become: yes
+gather_facts: false
+tasks:
+# Add Docker Packages
+- name: Install docker packages
+  remote_user: ansible_ubuntu_demo
+  apt:
+    name: name: ['apt-transport-https','ca-certificates', 'curl', 'software-properties-common']
+    state: present
+    update_cache: yes
+  tags:
+    - docker
+# Add Docker's gpg Key
+- name: Add Docker s GPG key for ubuntu from official site
+remote_user: ansible_ubuntu_demo
+apt_key:
+  url: https://download.docker.com/linux/ubuntu/gpg
+  state: present
+tags:
+  - docker
+# GPG Key with Fingerprint verification
+- name: Verify gpg key with the fingerprint
+remote_user: ansible_ubuntu_demo
+apt_key:
+  id: 0EBFCD88
+  state: present
+tags:
+  - docker
+# Configure Docker Repo
+- name: Configure Docker for ubuntu stable repository
+remote_user: ansible_ubuntu_demo
+apt_repository:
+  repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+  state: present
+  update_cache: yes
+tags:
+  - docker
+# Update Ubuntu packages (optional)
+- name: Update apt packages
+remote_user: ansible_ubuntu_demo
+apt:
+  update_cache: yes
+tags:
+  - docker
+# Install Docker-Ce
+- name: Install docker-ce
+remote_user: ansible_ubuntu_demo
+apt:
+  name: docker-ce
+  state: present
+  update_cache: yes
+tags:
+  - docker
+# Add Remote User to Docker Group
+- name: Add "ansible_ubuntu_demo" user to "docker" group
+remote_user: ansible_ubuntu_demo
+user:
+  name: "ansible_ubuntu_demo"
+  group: "docker"
+  append: yes
+tags:
+  - docker
+# Install Docker-Compose
+- name: Install docker-compose from official github repo
+remote_user: ansible_ubuntu_demo
+get_url:
+  url : https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+  dest: /usr/local/bin/docker-compose
+  mode: 'u+x,g+x'     
