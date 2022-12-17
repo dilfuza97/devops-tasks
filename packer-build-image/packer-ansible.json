@@ -34,7 +34,7 @@ packer {
     {
         "type": "ansible-local",
         "command": "ansible-playbook",
-        "playbook_file": "docker-compose.yaml"
+        "playbook_file": "playbook.yml"
     }
 ]
 }
