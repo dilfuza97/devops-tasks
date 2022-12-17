@@ -48,7 +48,7 @@
 
     - name: Set Docker permission 
       shell:
-        cmd: "sudo groupadd docker && sudo usermod -aG docker $USER"    
+        cmd: "groupadd docker && usermod -aG docker $USER"    
 
     - name: Start Docker service
       service:
