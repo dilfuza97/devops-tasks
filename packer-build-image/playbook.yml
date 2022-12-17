@@ -42,13 +42,13 @@
 
     - name: Convert old images to new runtime
       shell:
-        cmd: " grep -rl 'docker-runc' /var/lib/docker/containers/ | xargs sed -i 's/docker-runc/runc/g' "
+        cmd: "grep -rl 'docker-runc' /var/lib/docker/containers/ | xargs sed -i 's/docker-runc/runc/g' "
       changed_when: false
       failed_when: false
 
     - name: Set Docker permission 
       shell:
-        cmd: "chmod 777 /var/run/docker.sock && chgrp $USER /lib/systemd/system/docker.socket && chmod g+w /lib/systemd/system/docker.socket && usermod -aG docker ansible"    
+        cmd: "chgrp $USER /lib/systemd/system/docker.socket && chmod g+w /lib/systemd/system/docker.socket && usermod -aG docker ansible"    
 
     - name: Start Docker service
       service:
@@ -99,19 +99,6 @@
       when: >
         docker_compose_current_version is not defined
         or docker_compose_current_version is version(docker_compose_latest, '<')
-
-    # - name: Check is docer-compose installed
-    #   shell: command -v docker-compose >/dev/null 2>&1
-    #   register: is_docker_compose_install
-    #   ignore_errors: yes
-    # - debug: msg="{{ is_docker_compose_install.rc }}" # it returns rc 1
-    # - debug: var=is_docker_compose_install
-    # - name: Run only if compose is installed
-    #   shell: command docker-compose --version
-    #   register: print_version
-    #   ignore_errors: yes
-    #   when: is_docker_compose_install.rc == 0
-    # - debug: msg="{{ print_version.stdout }}"
 
     - name: Copy Docker Compose files
       copy:
