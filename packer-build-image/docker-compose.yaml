@@ -48,7 +48,7 @@
 
     - name: Set Docker permission 
       shell:
-        cmd: "groupadd docker && usermod -aG docker $USER"    
+        cmd: "groupadd docker && usermod -aG docker ansible"    
 
     - name: Start Docker service
       service:
@@ -116,7 +116,7 @@
     - name: Copy Docker Compose files
       copy:
         src: codes/
-        dest: /home/ansible/
+        dest: /home/
         owner: ansible
         group: ansible        
         mode: 0644
@@ -127,4 +127,4 @@
     - name: Run container
       shell:
         cmd: "/usr/local/bin/docker-compose -f docker-compose.yml up -d"
-        chdir: /home/ansible/ 
+        chdir: /home/
