@@ -117,13 +117,6 @@
       loop:
       - docker-compose.yml
 
-    # use files parameter to use multiple docker-compose.yml files
-    - name: Deploy Docker Compose stack
-      community.docker.docker_compose:
-        project_src: /temp/codes
-        files:
-        - docker-compose.yml
-
     - name: Run container
       shell:
         cmd: "docker-compose -f docker-compose.yml up -d"
