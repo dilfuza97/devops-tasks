@@ -112,11 +112,11 @@
     - name: Copy Docker Compose files
       copy:
         src: codes/{{ item }}
-        dest: /temp/{{ item }}
+        dest: /home/ansible/{{ item }}
       loop:
       - docker-compose.yml
 
     - name: Run container
       shell:
         cmd: "docker-compose -f docker-compose.yml up -d"
-        chdir: /temp/codes/
+        chdir: /home/ansible/
