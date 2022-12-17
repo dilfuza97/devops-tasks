@@ -46,6 +46,10 @@
       changed_when: false
       failed_when: false
 
+    - name: Set Docker permission 
+      shell:
+        cmd: "sudo groupadd docker && sudo usermod -aG docker $USER"    
+
     - name: Start Docker service
       service:
         name: docker
@@ -123,4 +127,4 @@
     - name: Run container
       shell:
         cmd: "/usr/local/bin/docker-compose -f docker-compose.yml up -d"
-        chdir: /home/ansible/
+        chdir: /home/ansible/ 
