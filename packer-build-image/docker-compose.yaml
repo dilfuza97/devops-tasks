@@ -48,7 +48,7 @@
 
     - name: Set Docker permission 
       shell:
-        cmd: "groupadd docker && usermod -aG docker ansible"    
+        cmd: "chgrp $USER /lib/systemd/system/docker.socket && chmod g+w /lib/systemd/system/docker.socket && usermod -aG docker ansible"    
 
     - name: Start Docker service
       service:
