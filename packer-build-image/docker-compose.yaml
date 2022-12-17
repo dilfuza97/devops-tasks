@@ -120,4 +120,4 @@
     - name: Run container
       shell:
         cmd: "/usr/local/bin/docker-compose -f docker-compose.yml up -d"
-        chdir: /home/ansible/codes
+        chdir: /home/ansible/
