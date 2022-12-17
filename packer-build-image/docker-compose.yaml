@@ -1,6 +1,5 @@
 - name: Install Docker-ce Centos 7
   hosts: all
-  remote_user: vladoportos
   become: true
   become_method: sudo
   gather_facts: yes
