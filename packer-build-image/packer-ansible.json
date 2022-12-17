@@ -4,14 +4,14 @@
         "type": "googlecompute",
         "project_id": "packer-and-g-213-91cba046",
         "account_file": "account.json",
-        "source_image_family": "ubuntu-2004-lts",
+        "source_image_family": "centos-7",
         "zone": "us-central1-f",
         "ssh_username": "root",
         "image_name": "booksite-packer",
-        "image_description": "Web server for book application landing page",
+        "image_description": "Spring Boot Application image",
         "image_labels": {
             "role": "web",
-            "team": "frontend"
+            "team": "devops"
         }
     }
 ],
@@ -25,17 +25,9 @@
     },
     {
         "type": "ansible",
-        "playbook_file": "/home/ubuntu/playbook.yml",
-        "group": ["web"]
-    },
-    {
-        command = "ansible-playbook"
-        playbook_file = "pre_build_controller.yml"
-        user = "ec2-user"
-        inventory_file_template = "controller ansible_host={{ .Host }} ansible_user={{ .User }} ansible_port={{ .Port }}\n"
-        extra_arguments = local.extra_args
+        "command": "ansible-playbook",
+        "playbook_file": "/home/ubuntu/playbook.yml"
     }
-    
 ]
 }
 
