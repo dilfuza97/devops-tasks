@@ -1,0 +1,130 @@
+- name: Install Docker-ce Centos 7
+  hosts: all
+  remote_user: vladoportos
+  become: true
+  become_method: sudo
+  gather_facts: yes
+
+
+  tasks:
+    - name: Remove docker if installed from CentOS repo
+      yum:
+        name:
+          - docker
+          - docker-client
+          - docker-client-latest
+          - docker-common
+          - docker-latest
+          - docker-latest-logrotate
+          - docker-logrotate
+          - docker-engine
+        state: absent
+
+    - name: Install required pkgs
+      yum:
+        name:
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+        state: latest
+
+    - name: Add Docker repo
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+
+    - name: Install Docker
+      yum:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: latest
+
+    - name: Convert old images to new runtime
+      shell:
+        cmd: " grep -rl 'docker-runc' /var/lib/docker/containers/ | xargs sed -i 's/docker-runc/runc/g' "
+      changed_when: false
+      failed_when: false
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Get version number of latest docker-compose
+      shell:
+        cmd: curl --silent 'https://api.github.com/repos/docker/compose/releases/latest' |  grep '"tag_name":' | cut -d'"' -f4
+      register: docker_compose_latest_svn
+      changed_when: false
+      args:
+        warn: no
+
+    - set_fact:
+        docker_compose_latest: "{{ docker_compose_latest_svn.stdout }}"
+      when:
+        - docker_compose_latest_svn.stdout is defined
+
+    - name: Check if /usr/local/bin/docker-compose exists.
+      stat:
+        path: /usr/local/bin/docker-compose
+      register: docker_compose_file
+
+    - name: Check current docker-compose version
+      shell:
+        cmd: /usr/local/bin/docker-compose --version | cut -d ' ' -f3 | sed 's/.$//'
+      register: docker_compose_vsn
+      changed_when: false
+      failed_when: false
+      args:
+        warn: no
+      when:
+        - docker_compose_file.stat.exists
+
+    - set_fact:
+        docker_compose_current_version: "{{ docker_compose_vsn.stdout }}"
+      when:
+        - docker_compose_vsn.stdout is defined and docker_compose_file.stat.exists
+
+    - name: Install or upgrade docker-compose
+      get_url:
+        url : "https://github.com/docker/compose/releases/download/{{ docker_compose_latest }}/docker-compose-Linux-x86_64"
+        dest: /usr/local/bin/docker-compose
+        mode: 'a+x'
+        force: yes
+      when: >
+        docker_compose_current_version is not defined
+        or docker_compose_current_version is version(docker_compose_latest, '<')
+
+    - name: Check is docer-compose installed
+      shell: command -v docker-compose >/dev/null 2>&1
+      register: is_docker_compose_install
+      ignore_errors: yes
+    - debug: msg="{{ is_docker_compose_install.rc }}" # it returns rc 1
+    - debug: var=is_docker_compose_install
+    - name: Run only if compose is installed
+      shell: command docker-compose --version
+      register: print_version
+      ignore_errors: yes
+      when: is_docker_compose_install.rc == 0
+    - debug: msg="{{ print_version.stdout }}"
+
+    - name: Copy Docker Compose files
+      copy:
+        src: codes/{{ item }}
+        dest: /temp/{{ item }}
+      loop:
+      - docker-compose.yml
+
+    # use files parameter to use multiple docker-compose.yml files
+    - name: Deploy Docker Compose stack
+      community.docker.docker_compose:
+        project_src: /temp/
+        files:
+        - docker-compose.yml
+
+    - name: Run container
+      shell:
+        cmd: "docker-compose -f docker-compose.yml up -d"
+        chdir: /temp/codes
