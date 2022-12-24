@@ -2,7 +2,7 @@
     "builders": [
       {
         "type": "googlecompute",
-        "project_id": "packer-and-g-213-9f19cfbc",
+        "project_id": "packer-and-g-213-5f07e04c",
         "account_file": "account.json",
         "source_image_family": "centos-7",
         "zone": "us-central1-f",
