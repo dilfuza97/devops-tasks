@@ -6,7 +6,7 @@
         "account_file": "account.json",
         "source_image_family": "centos-7",
         "zone": "us-central1-f",
-        "ssh_username": "packer",
+        "ssh_username": "ansible",
         "image_name": "springbootapp",
         "disk_size": 30,
         "image_description": "spring boot application image",
