@@ -9,7 +9,7 @@ pipeline {
               pwd
               ls -lat
               cd packer-build-image
-              packer init -upgrade . packer-ansible.json
+              packer init config.pkr.hcl
               """
             }
         }
