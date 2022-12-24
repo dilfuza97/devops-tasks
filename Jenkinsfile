@@ -4,25 +4,41 @@ pipeline {
     stages {
         stage('Init') {
             steps {
-                echo 'Initializing..'
+              sh """
+              #!/bin/bash
+              pwd
+              ls -lat
+              cd packer-build-image
+              packer init .
+              """
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
-                echo 'Running pytest..'
+              sh """
+              #!/bin/bash
+              cd packer-build-image
+              packer fmt -check .
+              """
             }
         }
         stage('Build') {
             steps {
-                echo 'Building..'
-                echo 'Running docker build -t sntshk/cotu .'
+              sh """
+              #!/bin/bash
+              cd packer-build-image
+              packer validate packer-ansible.json
+              """
             }
         }
         stage('Publish') {
             steps {
                 echo 'Publishing..'
-                echo 'Running docker push..'
+              sh """
+              #!/bin/bash
+              cd packer-build-image
+              packer build packer-ansible.json
+              """
             }
         }
         stage('Cleanup') {
