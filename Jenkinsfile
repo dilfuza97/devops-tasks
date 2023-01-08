@@ -1,15 +1,23 @@
-@Library('github.com/mschuchard/jenkins-devops-libs@2.0.1')_
+// @Library('github.com/mschuchard/jenkins-devops-libs@2.0.1')_
+library(
+  identifier: 'jenkins-devops-libs@master',
+  retriever:   modernSCM(
+    [$class:  'GitSCMSource',
+     remote:  'https://github.com/mschuchard/jenkins-devops-libs.git']
+  )
+)
 
 
 pipeline {
-  agent { docker { image 'hashicorp/packer:1.7.10' } }
+  agent any //{ docker { image 'hashicorp/packer:1.7.10' } }
 
     parameters {
         string(
             name: 'SCM_URL', 
             description: 'The URL (HTTPS or SSH URI) to the source repository \
             containing the Packer templates and configs (should also contain \
-            provisioning and validation support code for the artifact).'
+            provisioning and validation support code for the artifact).',
+            defaultValue: 'https://github.com/qodirovshohijahon/devops-tasks'
         )
     }
     stages {
@@ -21,7 +29,7 @@ pipeline {
                 ])
                 script {
                     packer.init(
-                    dir:     '.',
+                    dir:     './packer-build-image',
                     upgrade: true
                     )
                 }
@@ -31,11 +39,11 @@ pipeline {
             steps {
                 script {
                     // remember template param also targets directories
-                    packer.validate(template: '.')
+                    packer.validate(template: './packer-build-image')
                     packer.fmt(
                         check:    true,
                         diff:     true,
-                        template: '.'
+                        template: './packer-ansible.json'
                     )
                 }
             }
