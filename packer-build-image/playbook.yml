@@ -104,8 +104,8 @@
       copy:
         src: codes/
         dest: /home/
-        owner: ansible
-        group: ansible        
+        owner: $USER
+        group: $USER        
         mode: 0644
         directory_mode:
       # loop:
