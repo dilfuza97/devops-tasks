@@ -13,7 +13,7 @@ pipeline {
 
     parameters {
         string(
-            name: 'SCM_URL', 
+            name: 'SCM_URL',
             description: 'The URL (HTTPS or SSH URI) to the source repository \
             containing the Packer templates and configs (should also contain \
             provisioning and validation support code for the artifact).',
@@ -24,8 +24,10 @@ pipeline {
         stage('Initialize Packer Templates and Configs') {
             steps {
                 checkout([
-                    $class:            'GitSCM',
-                    userRemoteConfigs: [[url: params.SCM_URL]]
+                    $class: 'GitSCM',
+                    userRemoteConfigs: [[credentialsId: 'qodirovgit', url: params.SCM_URL]],
+                    branches: [[name: '*/master']],
+                    extensions: [[$class: 'CleanCheckout']],
                 ])
                 script {
                     packer.init(
