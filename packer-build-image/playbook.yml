@@ -102,8 +102,8 @@
 
     - name: Copy Docker Compose files
       copy:
-        src: codes/
-        dest: /home/
+        src: codes/{{ item  }}
+        dest: /tmp/{{ item }}
         owner: $USER
         group: $USER        
         mode: 0644
@@ -111,7 +111,13 @@
       # loop:
       # - docker-compose.yml
 
+    - name: test docker-compose
+      docker_compose:
+        project_src: tmp/
+        state: present
+
+
     - name: Run container
       shell:
         cmd: "/usr/local/bin/docker-compose -f docker-compose.yml up -d"
-        chdir: /home/
+        chdir: /tmp/
