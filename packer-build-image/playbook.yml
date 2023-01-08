@@ -102,8 +102,8 @@
 
     - name: Copy Docker Compose files
       copy:
-        src: codes/{{ item  }}
-        dest: /tmp/{{ item }}
+        src: codes/
+        dest: /tmp/
         owner: $USER
         group: $USER        
         mode: 0644
