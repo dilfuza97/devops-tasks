@@ -9,7 +9,7 @@ pipeline {
               pwd
               ls -lat
               cd packer-build-image
-              packer init config.pkr.hcl
+              # packer init config.pkr.hcl
               """
             }
         }
