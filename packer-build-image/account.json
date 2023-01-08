@@ -1,12 +1,33 @@
 {
-  "type": "service_account",
-  "project_id": "packer-and-g-213-5f07e04c",
-  "private_key_id": "89702da4d48e1f2608b8cf42d1539d0a7b2e5b8f",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC0Kmvc2zK3Tgyh\nhSTtrp+VC8BfkiK15fFnPDyoPedW5x4x7KRKFL7uLsloSgk0Uf5L3rnVDhSscJBv\nSF9Nywj/hguvIAlbhwxPMMTYQmMoeM6kKMn1CV69i5tUoDQ9D2gLvAZ+lUmLSYKP\nSuhGmd3zYSYCmF//34s2sFP2HOSBrqtVzmSDRLKOh1Ub9a7K/AEMiNqKjVFl4sZx\np39YiLFxYrQy1UZs1ANkwzMwJOycL4kIpHE9V4e+LxGo/amRmmAguficdsCACu0C\n1MTpi03M1N5maY0VoPIi8YGYT8sFWBInLS0zX9DBXO6dm/niT1boryPO8ZuPyXXz\nocn7C72tAgMBAAECggEAV3CLPvpHh/1iVfXnsU9h9hVo/TlQjVWXLtJmYgUBRQUQ\ne4xtQ+MDs1eTuoDMLM9qiuoC6OtXj0VmZAwM7RWQPWuSOiFjST+m8rwpnQfDVj4j\nlDqTodA1YerirVS/Za8XgTJ1OHQ96FL6AY+KYdGFjfxlVTccyHN2/kjfxv/Iy0Ln\niYL4jSRiTkpT3/K6NER3f57wJ0BAMoT6hI0uD7PE391VbctgFiMi4QWmnjcqzaWt\nCCTgbga86UmHHHThydBbKbzuKdm/6jc/ufT43ykdSEM70uQlNm0ul47l7yQPQbq1\n7/d0PNe0ZfZhUbaYcrkB8wGBGulTS5bsZOTp2RT+pQKBgQD0H8rWlqdsyoO7K6Hl\nzmsDTNjqTcrFDTAxpvVmM5XpFiZe5Gu7IRFY8iqbeETQpzYPdyfET0QJYvQBf9x2\n/NxA8ezlAOpxB1y9PmMbGDejLVdMfjEanL3vM+ex/Q2XuLqo1BfCe4mhgQSvPi2A\nv8pN7jiN5mpDJXrxuuIPEbUVvwKBgQC87h7GKJWlnk9BnKI5mAKx4ewYVWrdIa0j\n3dA8LjrN7c5W6CxYDga7ceQ+aadDH2T/eS5f6gzvPKq3pJYZxyIoRuO9+Q6HmitJ\nGj5vjZ9iNQ1rvWspAjEVCXlNr8QuYBGHynbsXqSm4zeA+cd04fVpVd3rgFAM2zGd\nQxztIFn/kwKBgD6OrxHSRVERjDQ4eCJFhRKxbJyOFrnsKT9wA06PRYkXTfnfGuQ3\nExTx6Y0xgqDdWHMaG6yoi0zEeLaxpzMulNpnpEcCtxEDy/YKuKbGy+sawVYuuDKT\nm/BiIqtvpz4L7nk48GW79obWYvbtPgfSHeteckuakfxm7FxpgWhPJ1JNAoGAK+zc\n4Mtsx33ABYwqN2O9NKhHIP0zBEihHZajpGpHJ7ujXpdKQAq6y/fVziD4T2XMMI13\nF7ut2C1tr5ang0TGD0E0D+YI18QjTjK402zE4qtc/HCkqnsk+DQkrMgxv2p8iOqs\nrZXviBGJxQXNtsIWMbBSET/a3LJVna+N2R/NbNsCgYEA0OIIvzmAYrj1u4C4qMnm\nbTPBZoh5Xa7Qu8inzcCp7dIWmv4TEfwCDrpIDTlY5zHDS8HyGU9tJSnPb/aZl8Cz\nZV1XxigPw83nelM0utgdgTRxD/qkcGSjXPDjG8LsN+C+kt6QbyB8EokiAF1nfhQd\naz6s/V7zFLsqTfDetqucViM=\n-----END PRIVATE KEY-----\n",
-  "client_email": "packer@packer-and-g-213-5f07e04c.iam.gserviceaccount.com",
-  "client_id": "116117451024868464269",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/packer%40packer-and-g-213-5f07e04c.iam.gserviceaccount.com"
+    "builders": [
+      {
+        "type": "googlecompute",
+        "project_id": "packer-and-g-213-48fe60ea",
+        "account_file": "account.json",
+        "source_image_family": "centos-7",
+        "zone": "us-central1-f",
+        "ssh_username": "ansible",
+        "image_name": "springbootapp",
+        "disk_size": 30,
+        "image_description": "spring boot application image",
+        "image_labels": {
+            "role": "web",
+            "team": "devops"
+        }
+    }
+],
+"provisioners": [
+    {
+        "type": "shell",
+        "inline": [
+            "sudo yum install -y python3 && sudo yum -y install ansible && sleep 3 && ansible --version"
+        ]
+    },
+    {
+        "type": "ansible-local",
+        "command": "ansible-playbook",
+        "playbook_file": "playbook.yml"
+    }
+]
 }
+
