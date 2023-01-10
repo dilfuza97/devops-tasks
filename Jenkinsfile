@@ -2,7 +2,7 @@ library(
   identifier: 'jenkins-devops-libs@master',
   retriever:   modernSCM(
     [$class:  'GitSCMSource',
-     remote:  'https://github.com/mschuchard/jenkins-devops-libs.git']
+     remote:  'https://github.com/mschuchard/jenkins-devops-libs/blob/master/vars/packer.groovy']
   )
 )
 pipeline {
