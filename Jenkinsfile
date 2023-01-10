@@ -1,13 +1,12 @@
-@library('jenkins-devops-libs')
-// library '[jenkins-devops-libs]'
+// @library('jenkins-devops-libs')
 _
-// library(
-//   identifier: 'jenkins-devops-libs@master',
-//   retriever:   modernSCM(
-//     [$class:  'GitSCMSource',
-//      remote:  'https://github.com/mschuchard/jenkins-devops-libs.git']
-//   )
-// )
+library(
+  identifier: 'jenkins-devops-libs@master',
+  retriever:   modernSCM(
+    [$class:  'GitSCMSource',
+     remote:  'https://github.com/mschuchard/jenkins-devops-libs.git']
+  )
+)
 pipeline {
   agent any //{ docker { image 'hashicorp/packer:1.7.10' } }
 
