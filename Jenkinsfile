@@ -27,20 +27,6 @@ pipeline {
                     extensions: [[$class: 'CleanCheckout']],
                 ])
                 script {
-                    // packer.plugins(
-                    //     bin:     '/usr/bin/packer', // optional location of packer install
-                    //     command: 'installed', // one of 'installed' or 'required'
-                    //     dir:     './packer-build-image', // locati
-                    // )
-                    packer.fmt(
-                        dir:  'packer-build-image',
-                    )
-                }
-            }
-        }
-        stage('Packer Templates and Configs Validation') {
-            steps {
-                script {
                     // remember template param also targets directories
                     packer.fmt(
                         check:    false,
@@ -50,7 +36,6 @@ pipeline {
                 }
             }
         }
-        
         stage('Build Image Artifacts') {
             steps {
                 script {
