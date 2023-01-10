@@ -33,7 +33,7 @@ pipeline {
                     //     dir:     './packer-build-image', // locati
                     // )
                     packer.fmt(
-                        template:     './packer-build-image',
+                        template:  './packer-build-image',
                     )
                 }
             }
@@ -42,13 +42,10 @@ pipeline {
             steps {
                 script {
                     // remember template param also targets directories
-                    packer.validate(
-                        template: './packer-build-image/template.pkr.json'
-                    )
                     packer.fmt(
                         check:    true,
                         diff:     true,
-                        template: './template.pkr.json'
+                        template: './packer-build-image'
                     )
                 }
             }
@@ -57,7 +54,9 @@ pipeline {
         stage('Build Image Artifacts') {
             steps {
                 script {
-                    packer.build(template: '.')
+                    packer.build(
+                        template: './packer-build-image/template.pkr.json'
+                    )
                 }
             }
         }
