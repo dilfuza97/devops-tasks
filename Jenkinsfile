@@ -32,9 +32,8 @@ pipeline {
                     //     command: 'installed', // one of 'installed' or 'required'
                     //     dir:     './packer-build-image', // locati
                     // )
-                    packer.init(
-                        dir:     './packer-build-image',
-                        upgrade: true
+                    packer.fmt(
+                        template:     './packer-build-image',
                     )
                 }
             }
@@ -43,7 +42,9 @@ pipeline {
             steps {
                 script {
                     // remember template param also targets directories
-                    packer.validate(template: './packer-build-image')
+                    packer.validate(
+                        template: './packer-build-image/template.pkr.json'
+                    )
                     packer.fmt(
                         check:    true,
                         diff:     true,
