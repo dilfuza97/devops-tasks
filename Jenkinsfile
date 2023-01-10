@@ -6,8 +6,6 @@
 //      remote:  'https://github.com/mschuchard/jenkins-devops-libs.git']
 //   )
 // )
-
-
 pipeline {
   agent any //{ docker { image 'hashicorp/packer:1.7.10' } }
 
