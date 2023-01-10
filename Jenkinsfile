@@ -1,10 +1,11 @@
-library(
-  identifier: 'jenkins-devops-libs@master',
-  retriever:   modernSCM(
-    [$class:  'GitSCMSource',
-     remote:  'https://github.com/mschuchard/jenkins-devops-libs/blob/master/vars/packer.groovy']
-  )
-)
+@Library('https://github.com/mschuchard/jenkins-devops-libs/blob/master/vars/packer.groovy')_
+// library(
+//   identifier: 'jenkins-devops-libs@master',
+//   retriever:   modernSCM(
+//     [$class:  'GitSCMSource',
+//      remote:  'https://github.com/mschuchard/jenkins-devops-libs.git']
+//   )
+// )
 pipeline {
   agent any //{ docker { image 'hashicorp/packer:1.7.10' } }
 
