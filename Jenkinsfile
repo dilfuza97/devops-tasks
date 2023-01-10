@@ -29,13 +29,13 @@ pipeline {
                 ])
                 script {
                     packer.plugins(
-                    bin:     '/usr/bin/packer', // optional location of packer install
-                    command: 'installed', // one of 'installed' or 'required'
-                    dir:     './packer-build-image', // locati
+                        bin:     '/usr/bin/packer', // optional location of packer install
+                        command: 'required', // one of 'installed' or 'required'
+                        dir:     './packer-build-image', // locati
                     )
                     packer.init(
-                    dir:     './packer-build-image',
-                    upgrade: true
+                        dir:     './packer-build-image',
+                        upgrade: true
                     )
                 }
             }
