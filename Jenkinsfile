@@ -55,7 +55,7 @@ pipeline {
             steps {
                 script {
                     packer.build(
-                        template: './packer-build-image/template.pkr.json'
+                        template: 'packer-build-image/template.pkr.json'
                     )
                 }
             }
