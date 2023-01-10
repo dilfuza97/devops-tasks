@@ -6,7 +6,7 @@
 //   )
 // )
 pipeline {
-  agent { docker { image 'hashicorp/packer:1.7.10' } }
+  agent { docker { image 'hashicorp/packer' } }
 
     parameters {
         string(
@@ -27,11 +27,11 @@ pipeline {
                     extensions: [[$class: 'CleanCheckout']],
                 ])
                 script {
-                    packer.plugins(
-                        bin:     '/usr/bin/packer', // optional location of packer install
-                        command: 'installed', // one of 'installed' or 'required'
-                        dir:     './packer-build-image', // locati
-                    )
+                    // packer.plugins(
+                    //     bin:     '/usr/bin/packer', // optional location of packer install
+                    //     command: 'installed', // one of 'installed' or 'required'
+                    //     dir:     './packer-build-image', // locati
+                    // )
                     packer.init(
                         dir:     './packer-build-image',
                         upgrade: true
