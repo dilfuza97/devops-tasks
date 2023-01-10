@@ -23,7 +23,7 @@ pipeline {
             steps {
                 checkout([
                     $class: 'GitSCM',
-                    userRemoteConfigs: [[credentialsId: 'qodirovgit', url: params.SCM_URL]],
+                    userRemoteConfigs: [[ url: params.SCM_URL]],
                     branches: [[name: '*/master']],
                     extensions: [[$class: 'CleanCheckout']],
                 ])
