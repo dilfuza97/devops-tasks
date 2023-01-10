@@ -30,7 +30,7 @@ pipeline {
                 script {
                     packer.plugins(
                         bin:     '/usr/bin/packer', // optional location of packer install
-                        // command: 'required', // one of 'installed' or 'required'
+                        command: 'installed', // one of 'installed' or 'required'
                         dir:     './packer-build-image', // locati
                     )
                     packer.init(
