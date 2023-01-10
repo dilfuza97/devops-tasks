@@ -1,12 +1,12 @@
-// library(
-//   identifier: 'jenkins-devops-libs@master',
-//   retriever:   modernSCM(
-//     [$class:  'GitSCMSource',
-//      remote:  'https://github.com/mschuchard/jenkins-devops-libs.git']
-//   )
-// )
+library(
+  identifier: 'jenkins-devops-libs@master',
+  retriever:   modernSCM(
+    [$class:  'GitSCMSource',
+     remote:  'https://github.com/mschuchard/jenkins-devops-libs.git']
+  )
+)
 pipeline {
-  agent { docker { image 'hashicorp/packer' } }
+  agent any // { docker { image 'hashicorp/packer:1.7.10' } }
 
     parameters {
         string(
@@ -19,9 +19,6 @@ pipeline {
     }
     stages {
         stage('Soo ---- Initialize Packer Templates and Configs') {
-//            agent {
-//                docker { image 'hashicorp/packer' }
-//            }
             steps {
                 checkout([
                     $class: 'GitSCM',
@@ -29,24 +26,38 @@ pipeline {
                     branches: [[name: '*/master']],
                     extensions: [[$class: 'CleanCheckout']],
                 ])
-                sh 'packer init .'
+                script {
+                    // packer.plugins(
+                    //     bin:     '/usr/bin/packer', // optional location of packer install
+                    //     command: 'installed', // one of 'installed' or 'required'
+                    //     dir:     './packer-build-image', // locati
+                    // )
+                    packer.init(
+                        dir:     './packer-build-image',
+                        upgrade: true
+                    )
+                }
             }
         }
         stage('Packer Templates and Configs Validation') {
-//            agent {
-//                docker { image 'hashicorp/packer' }
-//            }            
             steps {
-                sh 'packer fmt .'
+                script {
+                    // remember template param also targets directories
+                    packer.validate(template: './packer-build-image')
+                    packer.fmt(
+                        check:    true,
+                        diff:     true,
+                        template: './template.pkr.json'
+                    )
+                }
             }
         }
         
         stage('Build Image Artifacts') {
-//            agent {
-//                docker { image 'hashicorp/packer' }
-//            }            
             steps {
-                sh 'packer build'
+                script {
+                    packer.build(template: '.')
+                }
             }
         }
     }

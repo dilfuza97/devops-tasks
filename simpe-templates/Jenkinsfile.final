@@ -6,7 +6,7 @@
 //   )
 // )
 pipeline {
-  agent { docker { image 'hashicorp/packer:1.7.10' } }
+  agent { docker { image 'hashicorp/packer' } }
 
     parameters {
         string(
@@ -19,6 +19,9 @@ pipeline {
     }
     stages {
         stage('Soo ---- Initialize Packer Templates and Configs') {
+//            agent {
+//                docker { image 'hashicorp/packer' }
+//            }
             steps {
                 checkout([
                     $class: 'GitSCM',
@@ -26,38 +29,24 @@ pipeline {
                     branches: [[name: '*/master']],
                     extensions: [[$class: 'CleanCheckout']],
                 ])
-                script {
-                    packer.plugins(
-                        bin:     '/usr/bin/packer', // optional location of packer install
-                        command: 'installed', // one of 'installed' or 'required'
-                        dir:     './packer-build-image', // locati
-                    )
-                    packer.init(
-                        dir:     './packer-build-image',
-                        upgrade: true
-                    )
-                }
+                sh 'packer init .'
             }
         }
         stage('Packer Templates and Configs Validation') {
+//            agent {
+//                docker { image 'hashicorp/packer' }
+//            }            
             steps {
-                script {
-                    // remember template param also targets directories
-                    packer.validate(template: './packer-build-image')
-                    packer.fmt(
-                        check:    true,
-                        diff:     true,
-                        template: './packer-ansible.json'
-                    )
-                }
+                sh 'packer fmt .'
             }
         }
         
         stage('Build Image Artifacts') {
+//            agent {
+//                docker { image 'hashicorp/packer' }
+//            }            
             steps {
-                script {
-                    packer.build(template: '.')
-                }
+                sh 'packer build'
             }
         }
     }

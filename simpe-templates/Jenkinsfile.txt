@@ -9,7 +9,7 @@ pipeline {
               pwd
               ls -lat
               cd packer-build-image
-              # packer init config.pkr.hcl
+              # packer init template.pkr.json
               """
             }
         }
@@ -27,7 +27,7 @@ pipeline {
               sh """
               #!/bin/bash
               cd packer-build-image
-              packer validate packer-ansible.json
+              packer validate template.pkr.json
               """
             }
         }
@@ -37,14 +37,14 @@ pipeline {
               sh """
               #!/bin/bash
               cd packer-build-image
-              packer build packer-ansible.json
+              packer build template.pkr.json
               """
             }
         }
         stage('Cleanup') {
             steps {
                 echo 'Cleaning..'
-                echo 'Running docker rmi..'
+                echo '......'
             }
         }
     }
