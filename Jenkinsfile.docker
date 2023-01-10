@@ -29,7 +29,17 @@ pipeline {
                     branches: [[name: '*/master']],
                     extensions: [[$class: 'CleanCheckout']],
                 ])
-                sh 'packer init .'
+                script {
+                    // packer.plugins(
+                    //     bin:     '/usr/bin/packer', // optional location of packer install
+                    //     command: 'installed', // one of 'installed' or 'required'
+                    //     dir:     './packer-build-image', // locati
+                    // )
+                    packer.init(
+                        dir:     './packer-build-image',
+                        upgrade: true
+                    )
+                }
             }
         }
         stage('Packer Templates and Configs Validation') {
@@ -37,7 +47,15 @@ pipeline {
                 docker { image 'hashicorp/packer' }
             }            
             steps {
-                sh 'packer fmt .'
+                script {
+                    // remember template param also targets directories
+                    packer.validate(template: './packer-build-image')
+                    packer.fmt(
+                        check:    true,
+                        diff:     true,
+                        template: './packer-ansible.json'
+                    )
+                }
             }
         }
         
@@ -46,7 +64,9 @@ pipeline {
                 docker { image 'hashicorp/packer' }
             }            
             steps {
-                sh 'packer build'
+                script {
+                    packer.build(template: '.')
+                }
             }
         }
     }
