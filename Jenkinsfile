@@ -19,9 +19,9 @@ pipeline {
     }
     stages {
         stage('Soo ---- Initialize Packer Templates and Configs') {
-            agent {
-                docker { image 'hashicorp/packer' }
-            }
+//            agent {
+//                docker { image 'hashicorp/packer' }
+//            }
             steps {
                 checkout([
                     $class: 'GitSCM',
@@ -33,18 +33,18 @@ pipeline {
             }
         }
         stage('Packer Templates and Configs Validation') {
-            agent {
-                docker { image 'hashicorp/packer' }
-            }            
+//            agent {
+//                docker { image 'hashicorp/packer' }
+//            }            
             steps {
                 sh 'packer fmt .'
             }
         }
         
         stage('Build Image Artifacts') {
-            agent {
-                docker { image 'hashicorp/packer' }
-            }            
+//            agent {
+//                docker { image 'hashicorp/packer' }
+//            }            
             steps {
                 sh 'packer build'
             }
