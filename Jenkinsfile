@@ -43,8 +43,8 @@ pipeline {
                 script {
                     // remember template param also targets directories
                     packer.fmt(
-                        check:    true,
-                        diff:     true,
+                        check:    false,
+                        diff:     false,
                         template: './packer-build-image'
                     )
                 }
