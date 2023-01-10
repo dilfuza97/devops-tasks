@@ -1,4 +1,5 @@
-library('jenkins-devops-libs')
+// library('jenkins-devops-libs')
+library '[jenkins-devops-libs]'
 _
 // library(
 //   identifier: 'jenkins-devops-libs@master',
