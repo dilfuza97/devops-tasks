@@ -1,4 +1,5 @@
-@Library('https://github.com/mschuchard/jenkins-devops-libs/blob/master/vars/packer.groovy')_
+library('jenkins-devops-libs')
+_
 // library(
 //   identifier: 'jenkins-devops-libs@master',
 //   retriever:   modernSCM(
