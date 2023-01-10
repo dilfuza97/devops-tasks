@@ -6,7 +6,7 @@ library(
   )
 )
 pipeline {
-  agent any { docker { image 'hashicorp/packer:1.7.10' } }
+  agent { docker { image 'hashicorp/packer:1.7.10' } }
 
     parameters {
         string(
