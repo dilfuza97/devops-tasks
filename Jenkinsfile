@@ -33,7 +33,7 @@ pipeline {
                     //     dir:     './packer-build-image', // locati
                     // )
                     packer.fmt(
-                        template:  './packer-build-image',
+                        dir:  'packer-build-image',
                     )
                 }
             }
@@ -55,7 +55,7 @@ pipeline {
             steps {
                 script {
                     packer.build(
-                        template: 'packer-build-image/template.pkr.json'
+                        template: 'packer-build-image'
                     )
                 }
             }
