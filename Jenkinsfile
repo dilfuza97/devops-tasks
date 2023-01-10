@@ -19,6 +19,9 @@ pipeline {
     }
     stages {
         stage('Soo ---- Initialize Packer Templates and Configs') {
+            agent {
+                docker { image 'hashicorp/packer' }
+            }
             steps {
                 checkout([
                     $class: 'GitSCM',
@@ -40,6 +43,9 @@ pipeline {
             }
         }
         stage('Packer Templates and Configs Validation') {
+            agent {
+                docker { image 'hashicorp/packer' }
+            }            
             steps {
                 script {
                     // remember template param also targets directories
@@ -54,6 +60,9 @@ pipeline {
         }
         
         stage('Build Image Artifacts') {
+            agent {
+                docker { image 'hashicorp/packer' }
+            }            
             steps {
                 script {
                     packer.build(template: '.')
