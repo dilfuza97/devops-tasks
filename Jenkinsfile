@@ -31,9 +31,9 @@ pipeline {
         stage('Plugins') {
             steps {
                 script {
-                packer.plugins(command: 'required')
+                packer.plugins(command: 'installed')
                 packer.plugins(
-                    command: 'required',
+                    command: 'installed',
                     dir:     '.'
                 )
                 }
