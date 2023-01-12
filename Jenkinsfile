@@ -12,25 +12,39 @@ pipeline {
         )
     }
     stages {
-        stage('Soo ---- Initialize Packer Templates and Configs') {
-            steps {
-                script {
-                    packer.fmt(
-                        check:    false,
-                        diff:     false,
-                        template: './packer-build-image'
-                    )
-                }
+        stage('Initialize Packer Templates and Configs') {
+        steps {
+            checkout([
+            $class:            'GitSCM',
+            userRemoteConfigs: [[url: params.SCM_URL]]
+            ])
+            script {
+            packer.init(
+                dir:     './packer-build-image',
+                upgrade: true
+            )
             }
         }
-        stage('Build Image Artifacts') {
-            steps {
-                script {
-                    packer.build(
-                        template: 'packer-build-image'
-                    )
-                }
+        }
+        stage('Packer Templates and Configs Validation') {
+        steps {
+            script {
+            // remember template param also targets directories
+            packer.validate(template: './packer-build-image')
+            packer.fmt(
+                check:    true,
+                diff:     true,
+                template: '.'
+            )
             }
+        }
+        }
+        stage('Build Image Artifacts') {
+        steps {
+            script {
+            packer.build(template: './packer-build-image')
+            }
+        }
         }
     }
 }
