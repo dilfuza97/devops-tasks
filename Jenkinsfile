@@ -20,7 +20,7 @@ pipeline {
             ])
             script {
             packer.init(
-                dir:     './packer-build-image',
+                dir:     '.',
                 upgrade: true
             )
             }
@@ -30,7 +30,7 @@ pipeline {
         steps {
             script {
             // remember template param also targets directories
-            packer.validate(template: './packer-build-image')
+            packer.validate(template: '.')
             packer.fmt(
                 check:    true,
                 diff:     true,
@@ -42,7 +42,7 @@ pipeline {
         stage('Build Image Artifacts') {
         steps {
             script {
-            packer.build(template: './packer-build-image')
+            packer.build(template: '.')
             }
         }
         }
