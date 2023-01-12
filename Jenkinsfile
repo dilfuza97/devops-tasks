@@ -13,6 +13,7 @@ pipeline {
     }
     stages {
         stage('Soo ---- Initialize Packer Templates and Configs') {
+            steps {
                 script {
                     packer.fmt(
                         check:    false,
@@ -20,6 +21,7 @@ pipeline {
                         template: './packer-build-image'
                     )
                 }
+            }
         }
         stage('Build Image Artifacts') {
             steps {
