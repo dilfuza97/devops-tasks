@@ -19,6 +19,17 @@ pipeline {
         )
     }
     stages {
+        stage('Plugins') {
+                    steps {
+                        script {
+                        packer.plugins(command: 'installed')
+                        packer.plugins(
+                            command: 'installed',
+                            dir:     '.'
+                        )
+                        }
+                    }
+                }
         stage('Initialize Packer Templates and Configs') {
             steps {
                 checkout([
@@ -28,18 +39,7 @@ pipeline {
                 script {
                 packer.init(
                     dir:     '.',
-                    upgrade: false
-                )
-                }
-            }
-        }
-        stage('Plugins') {
-            steps {
-                script {
-                packer.plugins(command: 'installed')
-                packer.plugins(
-                    command: 'installed',
-                    dir:     '.'
+                    upgrade: true
                 )
                 }
             }
