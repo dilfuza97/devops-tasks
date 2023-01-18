@@ -17,31 +17,31 @@ pipeline {
         )
     }
     stages {
-        stage('Initialize Packer Templates and Configs') {
-            steps {
-                checkout([
-                $class:            'GitSCM',
-                userRemoteConfigs: [[url: params.SCM_URL]]
-                ])
-                script {
-                packer.init(
-                    dir:     '.',
-                    upgrade: false
-                )
-                }
-            }
-        }
-        stage('Plugins') {
-            steps {
-                script {
-                packer.plugins(command: 'installed')
-                packer.plugins(
-                    command: 'installed',
-                    dir:     '.'
-                )
-                }
-            }
-        }
+        // stage('Initialize Packer Templates and Configs') {
+        //     steps {
+        //         checkout([
+        //         $class:            'GitSCM',
+        //         userRemoteConfigs: [[url: params.SCM_URL]]
+        //         ])
+        //         script {
+        //         packer.init(
+        //             dir:     '.',
+        //             upgrade: false
+        //         )
+        //         }
+        //     }
+        // }
+        // stage('Plugins') {
+        //     steps {
+        //         script {
+        //         packer.plugins(command: 'installed')
+        //         packer.plugins(
+        //             command: 'installed',
+        //             dir:     '.'
+        //         )
+        //         }
+        //     }
+        // }
         stage('Validate') {
             steps {
                 script {
