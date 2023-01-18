@@ -1,5 +1,4 @@
-@Library('devops-libs') _
-
+@Library('github.com/mschuchard/jenkins-devops-libs@<branch or tag>')_
 
 pipeline {
   agent any 
@@ -61,6 +60,7 @@ pipeline {
                 }
             }
         }
+
         stage('Build Image Artifacts') {
             steps {
                 script {
@@ -68,5 +68,20 @@ pipeline {
                 }
             }
         }
+
+        stage('generate provenance') {
+            steps {
+                dir("../workspace") {
+                    sh 'rm -rf slsa-jenkins-generator && mkdir slsa-jenkins-generator'
+
+                    dir("slsa-jenkins-generator") {
+                        git branch: "main", credentialsId: "$CREDENTIAL_ID", url: "$Repository_Generator"
+                        sh "docker build . -t scia:slsa-generator"
+                        sh "printenv > ./envlist && docker run --env-file ./envlist -v \"${artifact_path}\":\"/artifacts\" scia:slsa-generator -a artifacts/${artifact_name} -o artifacts"
+                    }
+                }
+            }
+        }
+
     }
 }
