@@ -2,13 +2,9 @@
 
 pipeline {
   agent any 
-//   agent { 
-//     docker {
-//          image 'hashicorp/packer' 
-//     }
-//   }
-
-
+  agent { 
+    docker { image 'hashicorp/packer' }
+  }
     parameters {
         string(
             name: 'SCM_URL',
@@ -31,17 +27,17 @@ pipeline {
         //         }
         //     }
         // }
-        // stage('Plugins') {
-        //     steps {
-        //         script {
-        //         packer.plugins(command: 'installed')
-        //         packer.plugins(
-        //             command: 'installed',
-        //             dir:     '.'
-        //         )
-        //         }
-        //     }
-        // }
+        stage('Plugins') {
+            steps {
+                script {
+                packer.plugins(command: 'installed')
+                packer.plugins(
+                    command: 'installed',
+                    dir:     '.'
+                )
+                }
+            }
+        }
         stage('Validate') {
             steps {
                 script {
