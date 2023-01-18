@@ -38,7 +38,7 @@ pipeline {
                 ])
                 script {
                 packer.init(
-                    dir:     '.',
+                    dir:     './config',
                     upgrade: true
                 )
                 }
