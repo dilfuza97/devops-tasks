@@ -20,19 +20,19 @@ pipeline {
     }
     stages {
         stage('Initialize Packer Templates and Configs') {
-            steps {
-                checkout([
-                $class:            'GitSCM',
-                userRemoteConfigs: [[url: params.SCM_URL]]
-                ])
-                script {
-                packer.init(
-                    dir:     '.',
-                    upgrade: false
-                )
-                }
-            }
-        }
+        //     steps {
+        //         checkout([
+        //         $class:            'GitSCM',
+        //         userRemoteConfigs: [[url: params.SCM_URL]]
+        //         ])
+        //         script {
+        //         packer.init(
+        //             dir:     '.',
+        //             upgrade: false
+        //         )
+        //         }
+        //     }
+        // }
         stage('Plugins') {
             steps {
                 script {
@@ -47,7 +47,7 @@ pipeline {
         stage('Validate') {
             steps {
                 script {
-                packer.validate(template: '.')
+                packer.validate(template: 'pkr.json')
                 // packer.validate(template: 'config.pkr.hcl')
                 }
             }
