@@ -1,8 +1,8 @@
 @Library('github.com/mschuchard/jenkins-devops-libs@master')_
 
 pipeline {
-  agent any 
-//   agent { docker { image 'hashicorp/packer:1.7.10' } }
+//   agent any 
+  agent { docker { image 'hashicorp/packer:1.7.10' } }
 
 
     parameters {
