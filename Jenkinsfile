@@ -22,7 +22,7 @@ pipeline {
                 script {
                 packer.init(
                     dir:     '.',
-                    upgrade: true
+                    upgrade: false
                 )
                 }
             }
