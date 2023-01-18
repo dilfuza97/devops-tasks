@@ -45,8 +45,8 @@ pipeline {
         stage('Validate') {
             steps {
                 script {
-                packer.validate(template: 'template.pkr.json')
-                packer.validate(template: 'config.pkr.hcl')
+                packer.validate(template: '.')
+                // packer.validate(template: 'config.pkr.hcl')
                 }
             }
         }
