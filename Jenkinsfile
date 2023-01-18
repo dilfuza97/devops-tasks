@@ -2,7 +2,11 @@
 
 pipeline {
 //   agent any 
-  agent { docker { image 'hashicorp/packer:1.7.10' } }
+  agent { 
+    docker {
+         image 'hashicorp/packer' 
+    }
+  }
 
 
     parameters {
