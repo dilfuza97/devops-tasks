@@ -19,7 +19,7 @@ pipeline {
         )
     }
     stages {
-        stage('Initialize Packer Templates and Configs') {
+        // stage('Initialize Packer Templates and Configs') {
         //     steps {
         //         checkout([
         //         $class:            'GitSCM',
