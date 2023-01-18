@@ -1,10 +1,16 @@
-@Library('github.com/mschuchard/jenkins-devops-libs@master')_
+library(
+  identifier: 'jenkins-devops-libs@master',
+  retriever:   modernSCM(
+    [$class:  'GitSCMSource',
+     remote:  'https://github.com/mschuchard/jenkins-devops-libs.git']
+  )
+)
 
 pipeline {
-//   agent any 
-  agent { 
-    docker { image 'hashicorp/packer' }
-  }
+  agent any 
+//   agent { 
+//     docker { image 'hashicorp/packer' }
+//   }
     parameters {
         string(
             name: 'SCM_URL',
@@ -13,20 +19,20 @@ pipeline {
         )
     }
     stages {
-        // stage('Initialize Packer Templates and Configs') {
-        //     steps {
-        //         checkout([
-        //         $class:            'GitSCM',
-        //         userRemoteConfigs: [[url: params.SCM_URL]]
-        //         ])
-        //         script {
-        //         packer.init(
-        //             dir:     '.',
-        //             upgrade: false
-        //         )
-        //         }
-        //     }
-        // }
+        stage('Initialize Packer Templates and Configs') {
+            steps {
+                checkout([
+                $class:            'GitSCM',
+                userRemoteConfigs: [[url: params.SCM_URL]]
+                ])
+                script {
+                packer.init(
+                    dir:     '.',
+                    upgrade: false
+                )
+                }
+            }
+        }
         stage('Plugins') {
             steps {
                 script {
