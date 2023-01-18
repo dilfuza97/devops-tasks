@@ -44,15 +44,14 @@ pipeline {
                 }
             }
         }
-        stage('Validate') {
-            steps {
-                script {
-                packer.validate(template: 'build.json')
-                // packer.validate(template: 'config.pkr.hcl')
-                }
-            }
-        }
-        
+        // stage('Validate') {
+        //     steps {
+        //         script {
+        //         packer.validate(template: '.')
+        //         // packer.validate(template: 'config.pkr.hcl')
+        //         }
+        //     }
+        // }
         stage('Packer Templates and Configs Validation') {
             steps {
                 script {
