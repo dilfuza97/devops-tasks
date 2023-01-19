@@ -1,34 +1,36 @@
-builders = {
-  "type" = "googlecompute"
+# builders = {
+#   "type" = "googlecompute"
 
-  "project_id" = "packer-and-g-213-ecc33178"
+#   "project_id" = "packer-and-g-213-ecc33178"
 
-  "account_file" = "account.json"
+#   "account_file" = "account.json"
 
-  "source_image_family" = "centos-7"
+#   "source_image_family" = "centos-7"
 
-  "zone" = "us-central1-f"
+#   "zone" = "us-central1-f"
 
-  "ssh_username" = "ansible"
+#   "ssh_username" = "ansible"
 
-  "image_name" = "springbootapp"
+#   "image_name" = "springbootapp"
 
-  "disk_size" = 30
+#   "disk_size" = 30
 
-  "image_description" = "spring boot application image"
+#   "image_description" = "spring boot application image"
 
-  "image_labels" = {
-    "role" = "web"
+#   "image_labels" = {
+#     "role" = "web"
 
-    "team" = "devops"
-  }
-}
+#     "team" = "devops"
+#   }
+# }
 
-provisioners = {
-  "type" = "shell"
 
-  "inline" = ["sudo yum install -y python3 && sudo yum -y install ansible && sleep 3 && ansible --version"]
-}
+
+# provisioners = {
+#   "type" = "shell"
+
+#   "inline" = ["sudo yum install -y python3 && sudo yum -y install ansible && sleep 3 && ansible --version"]
+# }
 
 # provisioners = {
 #   "type" = "ansible-local"
@@ -37,3 +39,25 @@ provisioners = {
 
 #   "playbook_file" = "playbook.yml"
 # }
+
+
+source "googlecompute" "ex" {
+  type = "googlecompute"
+  project_id = "packer-and-g-213-ecc33178"
+  account_file = "account.json"
+  source_image_family = "centos-7"
+  zone = "us-central1-f"
+  ssh_username = "ansible"
+  image_name = "springbootapp"
+  disk_size = 30
+  image_description = "spring boot application image"
+}
+
+build {
+  sources = ["source.googlecompute.ex"]
+  provisioner "shell" {
+    inline = [
+      "sudo yum install -y python3 && sudo yum -y install ansible && sleep 3 && ansible --version"
+    ]
+  }
+}
