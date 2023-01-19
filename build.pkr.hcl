@@ -11,19 +11,21 @@ packer {
 source "googlecompute" "ex" {
   image_name              = "test-packer-example"
   machine_type            = "e2-small"
-  source_image            = "debian-10-buster-v20210316"
-  ssh_username            = "packer"
-  temporary_key_pair_type = "rsa"
+  source_image            = "centos-7"
+  ssh_username            = "ansible"
+  temporary_key_pair_type = "packer"
   temporary_key_pair_bits = 2048
   zone                    = "us-central1-f"
   project_id              = "packer-and-g-213-ecc33178"
+  account_file            = "account.json" 
+  image_name              = "springbootapp"
 }
 
 build {
   sources = ["source.googlecompute.ex"]
   provisioner "shell" {
     inline = [
-      "echo Hello From Github"
+      "sudo yum install -y python3 && sudo yum -y install ansible && sleep 3 && ansible --version"
     ]
   }
 }
