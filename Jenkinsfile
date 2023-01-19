@@ -47,28 +47,28 @@ pipeline {
             }
         }
       
-        stage('Validate') {
-            steps {
-                script {
-                packer.validate(template: '.')
-                // packer.validate(template: 'config.pkr.hcl')
-                }
-            }
-        }
-      
-//         stage('Packer Templates and Configs Validation') {
+//         stage('Validate') {
 //             steps {
 //                 script {
-//                 // remember template param also targets directories
-//                     packer.validate(template: '.')
-//                     packer.fmt(
-//                         check:    true,
-//                         diff:     true,
-//                         template: '.'
-//                     )
+//                 packer.validate(template: '.')
+//                 // packer.validate(template: 'config.pkr.hcl')
 //                 }
 //             }
 //         }
+      
+        stage('Packer Templates and Configs Validation') {
+            steps {
+                script {
+                // remember template param also targets directories
+                    packer.validate(template: '.')
+                    packer.fmt(
+                        check:    true,
+                        diff:     true,
+                        template: '.'
+                    )
+                }
+            }
+        }
 
         stage('Build Image Artifacts') {
             steps {
