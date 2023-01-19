@@ -18,7 +18,7 @@ source "googlecompute" "ex" {
   zone                    = "us-central1-f"
   project_id              = "packer-and-g-213-ecc33178"
   account_file            = "account.json" 
-  image_name              = "springbootapp"
+  
 }
 
 build {
