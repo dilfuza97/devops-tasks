@@ -9,7 +9,7 @@ packer {
 
 
 source "googlecompute" "ex" {
-  image_name              = "test-packer-example"
+  image_name              = "springbootapp"
   machine_type            = "e2-small"
   source_image            = "centos-7"
   ssh_username            = "ansible"
