@@ -1,0 +1,89 @@
+variables:
+  DOCKER_REGISTRY: 456269942226.dkr.ecr.us-east-1.amazonaws.com
+  AWS_DEFAULT_REGION: us-east-1
+  APP_NAME: java-todo-app
+  # DOCKER_HOST: tcp://docker:2375
+
+stages:          # List of stages for jobs, and their order of execution
+  - publish
+  - push
+  - deploy
+
+# maven-build-job:       # This job runs in the build stage, which runs first.
+#   image: maven:latest
+#   stage: build
+#   script:
+#     - echo "Compiling the code..."
+#     - mvn package
+#   artifacts:
+#      paths:
+#        - target/*.jar
+
+
+# build:      # This job runs in the deploy stage.
+#   image: docker:latest
+#   stage: push  # It only runs when *both* jobs in the test stage complete successfully.
+#   services:
+#         - name: docker:dind
+#   before_script:
+#     - apk add --no-cache python3 py3-pip
+#     - pip3 install --no-cache-dir awscli  
+#   script:
+#     - echo "Deploying application..."
+#     - echo "Login to gitlab..."
+#     - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 118400959103.dkr.ecr.us-east-1.amazonaws.com
+#     - docker build -t java-app .
+#     - docker tag java-app:latest 118400959103.dkr.ecr.us-east-1.amazonaws.com/java-app:latest
+#     - echo "Pushing to ECR..."
+#     - docker push 118400959103.dkr.ecr.us-east-1.amazonaws.com/java-app:latest
+
+publish:
+  stage: publish
+  image: 
+    name: amazon/aws-cli
+    entrypoint: [""]
+  only:
+    - main
+  # services:
+  #   - docker:dind
+  before_script:
+    - amazon-linux-extras install docker
+    - aws --version
+    - docker --version
+  script:
+    - docker build -t $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_IID . 
+    - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+    - docker push $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_IID
+
+deploy-job:      # This job runs in the deploy stage.
+  # image: docker
+  stage: deploy
+  image: 
+    name: docker
+  services:
+    - docker:19-dind
+  before_script:
+    - chmod 400 $SSH_PRIVATE_KEY
+    - apk add --no-cache curl jq python3 py3-pip
+    - pip install awscli
+    # - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    # - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    # - aws configure set region $AWS_DEFAULT_REGION   
+    # - aws ecr get-login-password --region us-west-2 | docker login $DOCKER_REGISTRY -u AWS --password-stdin
+    - aws ecr get-login-password | docker login --username AWS --password-stdin $DOCKER_REGISTRY
+    - aws --version
+    - docker info
+    - docker --version 
+
+    # - apk update && apk add openssh-client
+    # - apk add --no-cache python3 py3-pip
+    # - pip3 install --no-cache-dir awscli  
+  script:
+    - pwd
+    # - apk add --update --no-cache openssh
+    - chmod 400 $SSH_PRIVATE_KEY
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY $USER@$SERVER "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $DOCKER_REGISTRY"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY $USER@$SERVER "docker pull $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_IID"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY $USER@$SERVER "docker stop java-todo-app || true && docker rm java-todo-app || true && docker run -env-file=.env -p 6868:6868 --name java-todo-app -d $DOCKER_REGISTRY/$APP_NAME:$CI_PIPELINE_IID && docker ps"
+  only:
+    - main
