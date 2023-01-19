@@ -1,4 +1,4 @@
-"builders" = {
+builders = {
   "type" = "googlecompute"
 
   "project_id" = "packer-and-g-213-ecc33178"
@@ -24,13 +24,13 @@
   }
 }
 
-"provisioners" = {
+provisioners = {
   "type" = "shell"
 
   "inline" = ["sudo yum install -y python3 && sudo yum -y install ansible && sleep 3 && ansible --version"]
 }
 
-"provisioners" = {
+provisioners = {
   "type" = "ansible-local"
 
   "command" = "ansible-playbook"
