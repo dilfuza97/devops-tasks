@@ -65,7 +65,7 @@ pipeline {
 //                         check:    true,
 //                         diff:     true,
 //                         template: '.'
-                    )
+//                     )
                 }
             }
         }
