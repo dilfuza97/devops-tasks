@@ -70,13 +70,13 @@ pipeline {
             }
         }
 
-//         stage('Build Image Artifacts') {
-//             steps {
-//                 script {
-//                 packer.build(template: '.')
-//                 }
-//             }
-//         }
+        stage('Build Image Artifacts') {
+            steps {
+                script {
+                packer.build(template: '.')
+                }
+            }
+        }
 
         stage('generate provenance') {
             steps {
