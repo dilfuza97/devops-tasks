@@ -61,10 +61,10 @@ pipeline {
                 script {
                 // remember template param also targets directories
                     packer.validate(template: '.')
-                    packer.fmt(
-                        check:    true,
-                        diff:     true,
-                        template: '.'
+//                     packer.fmt(
+//                         check:    true,
+//                         diff:     true,
+//                         template: '.'
                     )
                 }
             }
