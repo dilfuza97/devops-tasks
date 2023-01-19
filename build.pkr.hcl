@@ -30,10 +30,10 @@ provisioners = {
   "inline" = ["sudo yum install -y python3 && sudo yum -y install ansible && sleep 3 && ansible --version"]
 }
 
-provisioners = {
-  "type" = "ansible-local"
+# provisioners = {
+#   "type" = "ansible-local"
 
-  "command" = "ansible-playbook"
+#   "command" = "ansible-playbook"
 
-  "playbook_file" = "playbook.yml"
-}
+#   "playbook_file" = "playbook.yml"
+# }
