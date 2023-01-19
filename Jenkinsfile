@@ -15,7 +15,7 @@ pipeline {
         string(
             name: 'SCM_URL',
             description: 'The URL (HTTPS or SSH URI) to the source repository',
-            defaultValue: 'https://github.com/qodirovshohijahon/devops-tasks'
+            defaultValue: 'https://github.com/dilfuza97/devops-tasks'
         )
     }
   
@@ -46,27 +46,29 @@ pipeline {
                 }
             }
         }
-        // stage('Validate') {
-        //     steps {
-        //         script {
-        //         packer.validate(template: '.')
-        //         // packer.validate(template: 'config.pkr.hcl')
-        //         }
-        //     }
-        // }
-        stage('Packer Templates and Configs Validation') {
+      
+        stage('Validate') {
             steps {
                 script {
-                // remember template param also targets directories
-                    packer.validate(template: '.')
-                    packer.fmt(
-                        check:    true,
-                        diff:     true,
-                        template: '.'
-                    )
+                packer.validate(template: '.')
+                // packer.validate(template: 'config.pkr.hcl')
                 }
             }
         }
+      
+//         stage('Packer Templates and Configs Validation') {
+//             steps {
+//                 script {
+//                 // remember template param also targets directories
+//                     packer.validate(template: '.')
+//                     packer.fmt(
+//                         check:    true,
+//                         diff:     true,
+//                         template: '.'
+//                     )
+//                 }
+//             }
+//         }
 
         stage('Build Image Artifacts') {
             steps {
