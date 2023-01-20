@@ -23,13 +23,13 @@ pipeline {
     }
   
   
-//   parameters {
-//         string(
-//             name: 'SCM_URL',
-//             description: 'The URL (HTTPS or SSH URI) to the source repository',
-//             defaultValue: 'https://github.com/dilfuza97/devops-tasks'
-//         )
-//     }
+  parameters {
+        string(
+            name: 'SCM_URL',
+            description: 'The URL (HTTPS or SSH URI) to the source repository',
+            defaultValue: 'https://github.com/dilfuza97/devops-tasks'
+        )
+    }
   
   
     stages {
