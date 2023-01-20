@@ -85,7 +85,8 @@ pipeline {
         stage('Build Image Artifacts') {
             steps {
                 script {
-                packer.build(template: '.')
+                  echo "test"
+#                 packer.build(template: '.')
                 }
             }
         }
