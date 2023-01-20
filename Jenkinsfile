@@ -88,9 +88,9 @@ pipeline {
                   echo "test"
 //                 packer.build(template: '.')
                   //TODO: replace with real build command
-                  sh 'echo "hello world" > output.txt'
+                  sh 'wget https://gist.githubusercontent.com/gcollazo/884a489a50aec7b53765405f40c6fbd1/raw/49d1568c34090587ac82e80612a9c350108b62c5/sample.json'
                   artifact_path = sh(script: 'pwd', returnStdout: true).trim()
-                  artifact_name = "output.txt"
+                  artifact_name = "sample.json"
                 }
             }
         }
