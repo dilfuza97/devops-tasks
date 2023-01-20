@@ -30,3 +30,12 @@ build {
   }
 }
 
+build {
+  sources = ["source.googlecompute.ex"]
+  provisioner "ansible-local" {
+     command = "ansible-playbook"
+     playbook_file = "playbook.yml"
+    
+  }
+}
+
