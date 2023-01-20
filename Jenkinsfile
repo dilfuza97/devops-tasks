@@ -86,7 +86,7 @@ pipeline {
             steps {
                 script {
                   echo "test"
-#                 packer.build(template: '.')
+//                 packer.build(template: '.')
                 }
             }
         }
