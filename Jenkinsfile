@@ -87,6 +87,10 @@ pipeline {
                 script {
                   echo "test"
 //                 packer.build(template: '.')
+                  //TODO: replace with real build command
+                  sh 'echo "hello world" > output.txt'
+                  artifact_path = sh(script: 'pwd', returnStdout: true).trim()
+                  artifact_name = "output.txt"
                 }
             }
         }
