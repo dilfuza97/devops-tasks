@@ -91,6 +91,7 @@ pipeline {
                   sh 'curl -O https://gist.githubusercontent.com/gcollazo/884a489a50aec7b53765405f40c6fbd1/raw/49d1568c34090587ac82e80612a9c350108b62c5/sample.json'
                   artifact_path = sh(script: 'pwd', returnStdout: true).trim()
                   artifact_name = "sample.json"
+                  sh "cat sample.json"
                 }
             }
         }
@@ -102,6 +103,7 @@ pipeline {
 
                     dir("slsa-jenkins-generator") {
                         git branch: "main", credentialsId: "$CREDENTIAL_ID", url: "$Repository_Generator"
+                        sh "cat ${artifact_path}/${artifact_name}"
                         sh "cd docker && ls -ahl && docker build . -t scia:slsa-generator"
                         sh "printenv > ./envlist && docker run --env-file ./envlist -v \"${artifact_path}\":\"/artifacts\" scia:slsa-generator -a artifacts/${artifact_name} -o artifacts"
                     }
