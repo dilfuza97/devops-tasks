@@ -98,8 +98,7 @@ pipeline {
 
                     dir("slsa-jenkins-generator") {
                         git branch: "main", credentialsId: "$CREDENTIAL_ID", url: "$Repository_Generator"
-                        sh "cd docker"
-                        sh "docker build . -t scia:slsa-generator"
+                        sh "cd docker && ls -ahl && docker build . -t scia:slsa-generator"
                         sh "printenv > ./envlist && docker run --env-file ./envlist -v \"${artifact_path}\":\"/artifacts\" scia:slsa-generator -a artifacts/${artifact_name} -o artifacts"
                     }
                 }
