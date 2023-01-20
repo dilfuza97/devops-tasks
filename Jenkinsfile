@@ -18,7 +18,7 @@ pipeline {
     }
 
   environment {
-        CREDENTIAL_ID = 'GIT_ACCOUNT'
+        CREDENTIAL_ID = '52df5492-8277-4db2-b0bc-fd85aa25b9f2'
         Repository_Generator = 'https://github.com/Samsung/slsa-jenkins-generator'
     }
   
