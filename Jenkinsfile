@@ -11,13 +11,25 @@ pipeline {
 //   agent { 
 //     docker { image 'hashicorp/packer' }
 //   }
-    parameters {
-        string(
-            name: 'SCM_URL',
-            description: 'The URL (HTTPS or SSH URI) to the source repository',
-            defaultValue: 'https://github.com/dilfuza97/devops-tasks'
-        )
+  tools {
+        git "git"
+        go 'go 1.18'
+
     }
+
+  environment {
+        CREDENTIAL_ID = 'GIT_ACCOUNT'
+        Repository_Generator = 'https://github.com/Samsung/slsa-jenkins-generator'
+    }
+  
+  
+//   parameters {
+//         string(
+//             name: 'SCM_URL',
+//             description: 'The URL (HTTPS or SSH URI) to the source repository',
+//             defaultValue: 'https://github.com/dilfuza97/devops-tasks'
+//         )
+//     }
   
   
     stages {
