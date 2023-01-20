@@ -88,10 +88,10 @@ pipeline {
                   echo "test"
 //                 packer.build(template: '.')
                   //TODO: replace with real build command
-                  sh 'curl -O https://gist.githubusercontent.com/gcollazo/884a489a50aec7b53765405f40c6fbd1/raw/49d1568c34090587ac82e80612a9c350108b62c5/sample.json'
+                  sh 'curl -O https://raw.githubusercontent.com/jdorfman/awesome-json-datasets/master/package.json'
                   artifact_path = sh(script: 'pwd', returnStdout: true).trim()
-                  artifact_name = "sample.json"
-                  sh "cat sample.json"
+                  artifact_name = "package.json"
+                  sh "cat package.json"
                 }
             }
         }
