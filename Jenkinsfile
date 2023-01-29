@@ -20,6 +20,7 @@ pipeline {
   environment {
         CREDENTIAL_ID = '52df5492-8277-4db2-b0bc-fd85aa25b9f2'
         Repository_Generator = 'https://github.com/Samsung/slsa-jenkins-generator'
+        payload = '{	"actor": "",	"event_payload": "",	"build_url": "test",	"payload_repository_git_url": "prgu",	"payload_after": "1234",	"eventname": "somename"}'
     }
   
   
